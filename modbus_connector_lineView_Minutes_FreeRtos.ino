@@ -60,6 +60,9 @@ WiFiUDP udp;
 #define RXD1 12
 #define TXD1 12
 
+#define RXD2 16
+#define TXD2 17
+
 ModbusRTU mb;
 
 
@@ -576,6 +579,7 @@ void setup() {
 
     //  Serial.println("Erreur ici");
     //  Serial1.begin(user_wifi.baudRate,SERIAL_8N1,33,32);
+    Serial2.begin(user_wifi.baudRate,SERIAL_8N1,RXD2,TXD2);
 
     
       //     user_wifi.ssid = "ELEXPERT_TPLINK";
@@ -617,8 +621,8 @@ server.on("/config_baudrate_id", HTTP_POST, handleBaudRateIDConfig);
   
 
 
-  // mb.begin(&Serial,12);
-  mb.begin(&Serial); 
+   mb.begin(&Serial2,4);
+   mb.begin(&Serial); 
 
 
   mb.slave(user_wifi.deviceID);
@@ -813,7 +817,7 @@ bool getDataFromAPILastMinute() {
       if (httpCode > 0) {
         if (httpCode == HTTP_CODE_OK) {
           String payload = http.getString();
-          Serial.println(payload);
+          // Serial.println(payload);
   
 
   
